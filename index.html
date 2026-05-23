@@ -14,16 +14,16 @@
   --bg:#f0f2f7;--surf:#fff;--surf2:#f5f6fa;--surf3:#e8eaf0;
   --bd:rgba(0,0,0,0.08);--bd2:rgba(0,0,0,0.14);
   --tx:#111827;--tx2:#4b5563;--tx3:#9ca3af;
-  --green:#059669;--red:#dc2626;--amber:#d97706;--blue:#2563eb;
-  --green-bg:#ecfdf5;--red-bg:#fef2f2;--amber-bg:#fffbeb;
+  --green:#059669;--red:#dc2626;--amber:#d97706;--blue:#2563eb;--purple:#7c3aed;
+  --green-bg:#ecfdf5;--red-bg:#fef2f2;--amber-bg:#fffbeb;--purple-bg:rgba(124,58,237,0.1);
   --r:14px;--rs:9px;--sh:0 2px 12px rgba(0,0,0,0.06);
 }
 body.dark{
   --bg:#0b0f1a;--surf:#131929;--surf2:#1a2235;--surf3:#1f2a3d;
   --bd:rgba(255,255,255,0.06);--bd2:rgba(255,255,255,0.12);
   --tx:#e8edf8;--tx2:#7a90b0;--tx3:#3d5270;
-  --green:#34d399;--red:#f87171;--amber:#fbbf24;--blue:#60a5fa;
-  --green-bg:rgba(52,211,153,0.1);--red-bg:rgba(248,113,113,0.1);--amber-bg:rgba(251,191,36,0.1);
+  --green:#34d399;--red:#f87171;--amber:#fbbf24;--blue:#60a5fa;--purple:#a78bfa;
+  --green-bg:rgba(52,211,153,0.1);--red-bg:rgba(248,113,113,0.1);--amber-bg:rgba(251,191,36,0.1);--purple-bg:rgba(167,139,250,0.1);
   --sh:0 2px 16px rgba(0,0,0,0.35);
 }
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;transition:background .25s,color .25s}
@@ -33,6 +33,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-h
 .hdr-brand .logo{font-size:22px}
 .hdr-brand .name{font-size:18px;font-weight:600;letter-spacing:-.3px}
 .hdr-brand .tag{font-size:10px;font-weight:500;background:var(--surf3);color:var(--tx3);padding:2px 8px;border-radius:20px;letter-spacing:.03em}
+.hdr-right{display:flex;gap:6px}
 .icon-btn{background:var(--surf);border:.5px solid var(--bd2);border-radius:var(--rs);cursor:pointer;padding:7px 9px;color:var(--tx2);font-size:16px;line-height:1;display:flex;align-items:center;transition:background .12s,color .12s}
 .icon-btn:hover{background:var(--surf2);color:var(--tx)}
 .month-nav{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:1.1rem}
@@ -71,6 +72,10 @@ select{cursor:pointer}
 .btn.primary:hover{opacity:.87}
 .btn.danger{color:var(--red);border-color:rgba(220,38,38,.3)}
 .btn.danger:hover{background:var(--red-bg)}
+.btn.green{background:var(--green);color:#fff;border-color:var(--green)}
+.btn.green:hover{opacity:.87}
+.btn.purple{background:var(--purple);color:#fff;border-color:var(--purple)}
+.btn.purple:hover{opacity:.87}
 .elist{display:flex;flex-direction:column;gap:5px}
 .ei{background:var(--surf);border:.5px solid var(--bd);border-radius:var(--rs);padding:.8rem 1rem;display:flex;align-items:center;gap:10px;transition:background .1s,box-shadow .1s}
 .ei:hover{background:var(--surf2);box-shadow:var(--sh)}
@@ -103,6 +108,35 @@ select{cursor:pointer}
 .info-box{margin-top:1rem;padding:.8rem 1rem;background:var(--surf2);border-radius:var(--rs);font-size:12px;color:var(--tx3);line-height:1.7;display:flex;align-items:flex-start;gap:7px;border:.5px solid var(--bd)}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--tx);color:var(--bg);padding:10px 20px;border-radius:30px;font-size:13px;font-weight:500;opacity:0;transition:opacity .2s,transform .25s;z-index:9999;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,0.25)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Persely */
+.persely-card{background:linear-gradient(135deg,#7c3aed,#5b21b6);border-radius:var(--r);padding:1.4rem 1.5rem;margin-bottom:1rem;box-shadow:0 4px 20px rgba(124,58,237,0.3);color:#fff;position:relative;overflow:hidden}
+.persely-card::before{content:'&#x1F437;';position:absolute;right:-10px;bottom:-10px;font-size:80px;opacity:.15}
+.persely-label{font-size:11px;text-transform:uppercase;letter-spacing:.07em;font-weight:500;opacity:.8;margin-bottom:.3rem}
+.persely-amount{font-size:30px;font-weight:600;letter-spacing:-.5px;font-family:'DM Mono',monospace;margin-bottom:.8rem}
+.persely-row{display:flex;gap:8px;flex-wrap:wrap}
+.persely-item{background:rgba(255,255,255,0.15);border-radius:8px;padding:.5rem .8rem;font-size:12px}
+.persely-item strong{display:block;font-size:14px;font-weight:600;font-family:'DM Mono',monospace}
+
+/* Befektetési javaslatok */
+.inv-card{background:var(--surf);border:.5px solid var(--bd);border-radius:var(--r);padding:1.2rem 1.4rem;margin-bottom:.9rem;box-shadow:var(--sh)}
+.inv-header{display:flex;align-items:center;gap:10px;margin-bottom:1rem}
+.inv-title{font-size:15px;font-weight:600}
+.inv-subtitle{font-size:12px;color:var(--tx3);margin-top:2px}
+.inv-list{display:flex;flex-direction:column;gap:8px}
+.inv-item{display:flex;align-items:flex-start;gap:10px;padding:.75rem;background:var(--surf2);border-radius:var(--rs);border:.5px solid var(--bd)}
+.inv-icon{font-size:22px;flex-shrink:0;margin-top:2px}
+.inv-name{font-size:13px;font-weight:600;color:var(--tx)}
+.inv-desc{font-size:12px;color:var(--tx2);margin-top:2px;line-height:1.5}
+.inv-badge{font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;margin-top:5px;display:inline-block}
+.inv-badge.low{background:var(--green-bg);color:var(--green)}
+.inv-badge.med{background:var(--amber-bg);color:var(--amber)}
+.inv-badge.high{background:var(--red-bg);color:var(--red)}
+.inv-pct{font-size:12px;font-weight:600;color:var(--green);margin-left:auto;white-space:nowrap;padding-left:8px}
+
+/* E-mail gomb */
+.email-btn-wrap{margin-bottom:1rem}
+
 @media(max-width:480px){
   .form-grid{grid-template-columns:1fr}
   .stat-c .sv{font-size:13px}
@@ -120,9 +154,10 @@ select{cursor:pointer}
       <span class="name">Pénztárca</span>
       <span class="tag">BETA</span>
     </div>
-    <button class="icon-btn" id="darkBtn" title="Sötét/Világos mód">
-      <i class="ti ti-moon" id="darkIco"></i>
-    </button>
+    <div class="hdr-right">
+      <button class="icon-btn" id="emailDayBtn" title="Napi összesítő e-mailben"><i class="ti ti-mail"></i></button>
+      <button class="icon-btn" id="darkBtn" title="Sötét/Világos mód"><i class="ti ti-moon" id="darkIco"></i></button>
+    </div>
   </header>
 
   <div class="month-nav">
@@ -153,10 +188,13 @@ select{cursor:pointer}
   <nav class="tabs">
     <button class="tb on" data-tab="overview"><i class="ti ti-layout-dashboard"></i> Áttekintés</button>
     <button class="tb" data-tab="expenses"><i class="ti ti-list"></i> Kiadások</button>
+    <button class="tb" data-tab="persely"><i class="ti ti-piggy-bank"></i> Persely</button>
+    <button class="tb" data-tab="invest"><i class="ti ti-trending-up"></i> Befektetés</button>
     <button class="tb" data-tab="stats"><i class="ti ti-chart-pie"></i> Statisztikák</button>
     <button class="tb" data-tab="settings"><i class="ti ti-settings"></i> Beállítások</button>
   </nav>
 
+  <!-- OVERVIEW -->
   <div class="tc on" id="tc-overview">
     <div class="sec-hdr"><span class="sec-title">Kategóriák szerinti bontás</span></div>
     <div class="cat-grid" id="catGrid"></div>
@@ -167,6 +205,7 @@ select{cursor:pointer}
     <div class="elist" id="recentList"></div>
   </div>
 
+  <!-- EXPENSES -->
   <div class="tc" id="tc-expenses">
     <div style="display:flex;justify-content:flex-end;margin-bottom:.8rem">
       <button class="btn primary" id="addExpBtn"><i class="ti ti-plus"></i> Új kiadás</button>
@@ -195,11 +234,56 @@ select{cursor:pointer}
     <div class="elist" id="expList"></div>
   </div>
 
+  <!-- PERSELY -->
+  <div class="tc" id="tc-persely">
+    <div class="persely-card">
+      <div class="persely-label">&#x1F437; Persely – összegyűjtött megtakarítás</div>
+      <div class="persely-amount" id="perselyTotal">0 Ft</div>
+      <div class="persely-row" id="perselyItems"></div>
+    </div>
+    <div class="card">
+      <div style="font-size:14px;font-weight:600;margin-bottom:10px">Hónap végén megmaradt összeg átvitele</div>
+      <div style="font-size:13px;color:var(--tx2);margin-bottom:14px;line-height:1.6">
+        Ha a hónap végén marad pénz a keretedből, azt átmozgathatod a perselybe. Az összeg megmarad a következő hónapokban is.
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <div style="flex:1;min-width:160px">
+          <div style="font-size:12px;color:var(--tx3);margin-bottom:4px">Átviendő összeg (Ft)</div>
+          <input type="number" id="perselyInput" placeholder="pl. 15000" min="1" />
+        </div>
+        <button class="btn green" id="perselyAdd" style="margin-top:20px"><i class="ti ti-piggy-bank"></i> Berakás a perselybe</button>
+      </div>
+      <div style="margin-top:10px;font-size:12px;color:var(--tx3)">
+        Jelenlegi maradék ebben a hónapban: <strong id="perselyCurRem" style="color:var(--green)">—</strong>
+      </div>
+    </div>
+    <div class="card">
+      <div style="font-size:14px;font-weight:600;margin-bottom:10px">Kivétel a perselyből</div>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <div style="flex:1;min-width:160px">
+          <div style="font-size:12px;color:var(--tx3);margin-bottom:4px">Kivett összeg (Ft)</div>
+          <input type="number" id="perselyWithdraw" placeholder="pl. 5000" min="1" />
+        </div>
+        <button class="btn danger" id="perselyRemove" style="margin-top:20px"><i class="ti ti-arrow-up-right"></i> Kivétel</button>
+      </div>
+    </div>
+    <div class="card" style="padding:0 1.4rem">
+      <div style="padding:.8rem 0;font-size:13px;font-weight:600;border-bottom:.5px solid var(--bd)">Tranzakciók</div>
+      <div id="perselyLog"></div>
+    </div>
+  </div>
+
+  <!-- BEFEKTETÉS -->
+  <div class="tc" id="tc-invest">
+    <div id="investContent"></div>
+  </div>
+
+  <!-- STATS -->
   <div class="tc" id="tc-stats">
     <div class="chart-sec">
       <div class="chart-title">Kiadások kategóriánként</div>
       <div id="pieLegend" class="legend"></div>
-      <div class="chart-wrap" style="height:250px"><canvas id="pieC" role="img" aria-label="Kördiagram a kiadások kategóriánkénti megoszlásáról">Nincs adat.</canvas></div>
+      <div class="chart-wrap" style="height:250px"><canvas id="pieC" role="img" aria-label="Kördiagram">Nincs adat.</canvas></div>
     </div>
     <div class="chart-sec">
       <div class="chart-title">Havi kiadási trend (utolsó 6 hónap)</div>
@@ -207,7 +291,7 @@ select{cursor:pointer}
         <span class="leg-item"><span class="leg-dot" style="background:#2563eb"></span>Kiadás</span>
         <span class="leg-item"><span class="leg-dot" style="background:#d97706"></span>Keret</span>
       </div>
-      <div class="chart-wrap" style="height:260px"><canvas id="lineC" role="img" aria-label="Vonaldiagram a havi kiadási trendről">Nincs adat.</canvas></div>
+      <div class="chart-wrap" style="height:260px"><canvas id="lineC" role="img" aria-label="Vonaldiagram">Nincs adat.</canvas></div>
     </div>
     <div class="chart-sec">
       <div class="chart-title">Tervezett vs tényleges (utolsó 6 hónap)</div>
@@ -215,12 +299,21 @@ select{cursor:pointer}
         <span class="leg-item"><span class="leg-dot" style="background:#7c3aed"></span>Tervezett</span>
         <span class="leg-item"><span class="leg-dot" style="background:#059669"></span>Tényleges</span>
       </div>
-      <div class="chart-wrap" style="height:260px"><canvas id="barC" role="img" aria-label="Oszlopdiagram tervezett és tényleges összehasonlításhoz">Nincs adat.</canvas></div>
+      <div class="chart-wrap" style="height:260px"><canvas id="barC" role="img" aria-label="Oszlopdiagram">Nincs adat.</canvas></div>
     </div>
   </div>
 
+  <!-- SETTINGS -->
   <div class="tc" id="tc-settings">
     <div class="card" style="padding:0 1.4rem">
+      <div class="set-row">
+        <div><div class="sl-t">Napi összesítő e-mailben</div><div class="sl-d">Megnyitja az e-mail klienst kitöltve</div></div>
+        <button class="btn purple" id="emailDayBtn2"><i class="ti ti-mail"></i> Küldés</button>
+      </div>
+      <div class="set-row">
+        <div><div class="sl-t">Pénzcsörgés hang</div><div class="sl-d">Hang lejátszása kiadás rögzítésekor</div></div>
+        <button class="btn" id="soundToggle"><i class="ti ti-volume" id="soundIco"></i> <span id="soundLabel">Bekapcsolva</span></button>
+      </div>
       <div class="set-row">
         <div><div class="sl-t">Adatok exportálása</div><div class="sl-d">Az összes adat letöltése JSON formátumban</div></div>
         <button class="btn" id="exportBtn"><i class="ti ti-download"></i> Exportálás</button>
@@ -239,7 +332,7 @@ select{cursor:pointer}
     </div>
     <div class="info-box">
       <i class="ti ti-info-circle" style="font-size:16px;flex-shrink:0;margin-top:1px"></i>
-      Az adatok a böngésző LocalStorage-ában tárolódnak — csak ezen az eszközön érhetők el. Exportálással biztonsági másolatot készíthetsz, amelyet bármikor visszatölthetsz.
+      Az adatok a böngésző LocalStorage-ában tárolódnak. Exportálással biztonsági másolatot készíthetsz.
     </div>
   </div>
 </div>
@@ -255,6 +348,23 @@ var CATS = [
   {id:'szorakozas',  label:'Szórakozás', icon:'&#x1F3AD;', color:'#db2777', bg:'rgba(219,39,119,0.10)'},
   {id:'egyeb',       label:'Egyéb',      icon:'&#x1F4E6;', color:'#6b7280', bg:'rgba(107,114,128,0.10)'}
 ];
+var INVEST_TIERS = [
+  {min:0, max:50000, label:'Kezdő megtakarító', icon:'&#x1F331;', items:[
+    {icon:'&#x1F3E6;', name:'Bankbetét', desc:'Biztonságos, folyó megtakarítás. Magyar bankoknál 5-7% éves kamat is elérhető.', risk:'low', ret:'5-7%'},
+    {icon:'&#x1F4B3;', name:'Állampapír (MÁP+)', desc:'Magyar állam által garantált, kockázatmentes befektetés. Online vásárolható az ÁKK oldalán.', risk:'low', ret:'6-8%'},
+    {icon:'&#x1F37A;', name:'Takarékbetét / TBSZ', desc:'Tartós befektetési számla – adókedvezménnyel. 5 év után kamatadó-mentes.', risk:'low', ret:'5-7%'}
+  ]},
+  {min:50000, max:300000, label:'Haladó megtakarító', icon:'&#x1F4C8;', items:[
+    {icon:'&#x1F4B3;', name:'Prémium Magyar Állampapír', desc:'Inflációkövető állampapír, biztonságos és jól kamatozik.', risk:'low', ret:'7-9%'},
+    {icon:'&#x1F4B9;', name:'Befektetési alap', desc:'Kezelt alap, diverzifikált portfólió. OTP, Erste kínálatában is elérhető.', risk:'med', ret:'8-12%'},
+    {icon:'&#x1F30D;', name:'ETF (tőzsdei alap)', desc:'Pl. S&P 500 ETF – az egész világ tőzsdéjébe fektethetsz egyszerre, minimális költséggel.', risk:'med', ret:'10-15%'}
+  ]},
+  {min:300000, max:Infinity, label:'Tapasztalt befektető', icon:'&#x1F3AF;', items:[
+    {icon:'&#x1F30D;', name:'Részvények / ETF-ek', desc:'Egyedi részvények vagy globális ETF-ek (VWCE, CSPX). Hosszú távon a legjobb hozam.', risk:'high', ret:'10-20%'},
+    {icon:'&#x1F3E0;', name:'Ingatlan befektetés', desc:'Magyar ingatlan bérbeadás vagy REIT alapok. Stabil hozam, de magas tőkeigény.', risk:'med', ret:'6-10%'},
+    {icon:'&#x20BF;', name:'Kripto (max 5-10%)', desc:'Bitcoin, Ethereum – magas kockázat, de diverzifikációs eszközként kis arányban megfontolható.', risk:'high', ret:'Változó'}
+  ]}
+];
 
 function getCat(id) {
   for (var i = 0; i < CATS.length; i++) { if (CATS[i].id === id) return CATS[i]; }
@@ -264,9 +374,7 @@ function getCurrentMonth() {
   var d = new Date();
   return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0');
 }
-function fmtHUF(n) {
-  return new Intl.NumberFormat('hu-HU').format(Math.round(n)) + ' Ft';
-}
+function fmtHUF(n) { return new Intl.NumberFormat('hu-HU').format(Math.round(n)) + ' Ft'; }
 function fmtDate(s) {
   if (!s) return '';
   var parts = s.split('-');
@@ -280,7 +388,6 @@ function getMonthLabel(ym) {
   var parts = ym.split('-');
   return parts[0] + '. ' + MONTHS[parseInt(parts[1])-1];
 }
-
 function loadLS(key, def) {
   try { var v = localStorage.getItem(key); return v ? JSON.parse(v) : def; } catch(e) { return def; }
 }
@@ -288,16 +395,20 @@ function loadLS(key, def) {
 var state = {
   budgets: loadLS('pfin_budgets', {}),
   expenses: loadLS('pfin_expenses', []),
+  persely: loadLS('pfin_persely', {total: 0, log: []}),
   currentMonth: getCurrentMonth(),
   editId: null,
-  dark: loadLS('pfin_dark', false)
+  dark: loadLS('pfin_dark', false),
+  sound: loadLS('pfin_sound', true)
 };
 
 var pieInst = null, lineInst = null, barInst = null;
+var audioCtx = null;
 
 function save() {
   localStorage.setItem('pfin_budgets', JSON.stringify(state.budgets));
   localStorage.setItem('pfin_expenses', JSON.stringify(state.expenses));
+  localStorage.setItem('pfin_persely', JSON.stringify(state.persely));
 }
 
 function showToast(msg) {
@@ -307,16 +418,41 @@ function showToast(msg) {
   setTimeout(function() { t.classList.remove('show'); }, 2400);
 }
 
+// --- PÉNZCSÖRGÉS HANG ---
+function playCoinSound() {
+  if (!state.sound) return;
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    var freqs = [1047, 1319, 1568, 2093];
+    for (var i = 0; i < freqs.length; i++) {
+      (function(freq, delay) {
+        var osc = audioCtx.createOscillator();
+        var gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.frequency.value = freq;
+        osc.type = 'sine';
+        var t = audioCtx.currentTime + delay;
+        gain.gain.setValueAtTime(0, t);
+        gain.gain.linearRampToValueAtTime(0.18, t + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
+        osc.start(t);
+        osc.stop(t + 0.2);
+      })(freqs[i], i * 0.07);
+    }
+  } catch(e) {}
+}
+
 function curExpenses() {
   return state.expenses.filter(function(e) { return e.date && e.date.indexOf(state.currentMonth) === 0; });
 }
 function curBudget() { return state.budgets[state.currentMonth] || 0; }
 function curSpent() {
-  var exps = curExpenses();
-  var total = 0;
+  var exps = curExpenses(), total = 0;
   for (var i = 0; i < exps.length; i++) total += exps[i].amount;
   return total;
 }
+function curRem() { return curBudget() - curSpent(); }
 
 function updateBudgetCard() {
   var budget = curBudget(), spent = curSpent(), rem = budget - spent;
@@ -341,87 +477,220 @@ function updateBudgetCard() {
 }
 
 function renderCatGrid() {
-  var exps = curExpenses();
-  var el = document.getElementById('catGrid');
+  var exps = curExpenses(), el = document.getElementById('catGrid');
   el.innerHTML = '';
   for (var i = 0; i < CATS.length; i++) {
-    var cat = CATS[i];
-    var total = 0;
+    var cat = CATS[i], total = 0;
     for (var j = 0; j < exps.length; j++) { if (exps[j].category === cat.id) total += exps[j].amount; }
-    var d = document.createElement('div');
-    d.className = 'cat-c';
-    d.innerHTML = '<span class="cat-ico">' + cat.icon + '</span>' +
-      '<div style="flex:1;min-width:0">' +
-        '<div class="cat-label">' + cat.label + '</div>' +
-        '<div class="cat-amount" style="color:' + (total > 0 ? cat.color : 'var(--tx3)') + '">' + fmtHUF(total) + '</div>' +
-      '</div>';
+    var d = document.createElement('div'); d.className = 'cat-c';
+    d.innerHTML = '<span class="cat-ico">' + cat.icon + '</span><div style="flex:1;min-width:0"><div class="cat-label">' + cat.label + '</div><div class="cat-amount" style="color:' + (total > 0 ? cat.color : 'var(--tx3)') + '">' + fmtHUF(total) + '</div></div>';
     el.appendChild(d);
   }
 }
 
 function makeEI(exp, actions) {
-  var cat = getCat(exp.category);
-  var d = document.createElement('div');
+  var cat = getCat(exp.category), d = document.createElement('div');
   d.className = 'ei';
-  var actHTML = '';
-  if (actions) {
-    actHTML = '<div class="ei-actions">' +
-      '<button class="act-btn edit" data-id="' + exp.id + '" title="Szerkesztés" aria-label="Szerkesztés"><i class="ti ti-edit"></i></button>' +
-      '<button class="act-btn del" data-id="' + exp.id + '" title="Törlés" aria-label="Törlés"><i class="ti ti-trash"></i></button>' +
-      '</div>';
-  }
-  d.innerHTML =
-    '<div class="ei-badge" style="background:' + cat.bg + '">' + cat.icon + '</div>' +
-    '<div class="ei-info">' +
-      '<div class="ei-desc">' + (exp.description || cat.label) + '</div>' +
-      '<div class="ei-meta">' + cat.label + ' · ' + fmtDate(exp.date) + '</div>' +
-    '</div>' +
-    '<div class="ei-amount">' + fmtHUF(exp.amount) + '</div>' +
-    actHTML;
+  var actHTML = actions ? '<div class="ei-actions"><button class="act-btn edit" data-id="' + exp.id + '" title="Szerkesztés"><i class="ti ti-edit"></i></button><button class="act-btn del" data-id="' + exp.id + '" title="Törlés"><i class="ti ti-trash"></i></button></div>' : '';
+  d.innerHTML = '<div class="ei-badge" style="background:' + cat.bg + '">' + cat.icon + '</div><div class="ei-info"><div class="ei-desc">' + (exp.description || cat.label) + '</div><div class="ei-meta">' + cat.label + ' · ' + fmtDate(exp.date) + '</div></div><div class="ei-amount">' + fmtHUF(exp.amount) + '</div>' + actHTML;
   return d;
 }
 
 function renderRecentList() {
-  var el = document.getElementById('recentList');
-  el.innerHTML = '';
-  var exps = curExpenses().slice().sort(function(a,b) { return b.date < a.date ? -1 : 1; }).slice(0,5);
-  if (!exps.length) {
-    el.innerHTML = '<div class="empty"><i class="ti ti-receipt-off"></i>Nincs kiadás ebben a hónapban</div>';
-    return;
-  }
+  var el = document.getElementById('recentList'); el.innerHTML = '';
+  var exps = curExpenses().slice().sort(function(a,b){ return b.date < a.date ? -1 : 1; }).slice(0,5);
+  if (!exps.length) { el.innerHTML = '<div class="empty"><i class="ti ti-receipt-off"></i>Nincs kiadás ebben a hónapban</div>'; return; }
   for (var i = 0; i < exps.length; i++) el.appendChild(makeEI(exps[i], false));
 }
 
 function renderExpList() {
-  var el = document.getElementById('expList');
-  el.innerHTML = '';
-  var exps = curExpenses().slice().sort(function(a,b) { return b.date < a.date ? -1 : 1; });
-  if (!exps.length) {
-    el.innerHTML = '<div class="empty"><i class="ti ti-receipt-off"></i>Nincs kiadás ebben a hónapban<br><span style="font-size:13px">Adj hozzá egyet a + gombbal!</span></div>';
-    return;
-  }
+  var el = document.getElementById('expList'); el.innerHTML = '';
+  var exps = curExpenses().slice().sort(function(a,b){ return b.date < a.date ? -1 : 1; });
+  if (!exps.length) { el.innerHTML = '<div class="empty"><i class="ti ti-receipt-off"></i>Nincs kiadás ebben a hónapban<br><span style="font-size:13px">Adj hozzá egyet a + gombbal!</span></div>'; return; }
   for (var i = 0; i < exps.length; i++) {
     (function(exp) {
       var item = makeEI(exp, true);
-      var editBtn = item.querySelector('.act-btn.edit');
-      var delBtn = item.querySelector('.act-btn.del');
-      if (editBtn) editBtn.addEventListener('click', function() { startEdit(exp); });
-      if (delBtn) delBtn.addEventListener('click', function() { deleteExp(exp.id); });
+      var eb = item.querySelector('.act-btn.edit'), db = item.querySelector('.act-btn.del');
+      if (eb) eb.addEventListener('click', function() { startEdit(exp); });
+      if (db) db.addEventListener('click', function() { deleteExp(exp.id); });
       el.appendChild(item);
     })(exps[i]);
   }
 }
 
+// --- PERSELY ---
+function renderPersely() {
+  var p = state.persely;
+  document.getElementById('perselyTotal').textContent = fmtHUF(p.total || 0);
+  var rem = curRem();
+  document.getElementById('perselyCurRem').textContent = fmtHUF(rem > 0 ? rem : 0);
+
+  // Havi bontás a perselyből
+  var byMonth = {};
+  var log = p.log || [];
+  for (var i = 0; i < log.length; i++) {
+    var entry = log[i];
+    var m = entry.date ? entry.date.substring(0,7) : '?';
+    if (!byMonth[m]) byMonth[m] = 0;
+    byMonth[m] += entry.amount;
+  }
+  var itemsEl = document.getElementById('perselyItems');
+  itemsEl.innerHTML = '';
+  var months = Object.keys(byMonth).sort().reverse().slice(0,4);
+  if (!months.length) {
+    itemsEl.innerHTML = '<div style="font-size:12px;opacity:.7">Még nincs berakott összeg</div>';
+  }
+  for (var j = 0; j < months.length; j++) {
+    var span = document.createElement('div');
+    span.className = 'persely-item';
+    var parts = months[j].split('-');
+    span.innerHTML = '<strong>' + fmtHUF(byMonth[months[j]]) + '</strong>' + (parts[0] + '. ' + MONTHS[parseInt(parts[1])-1]);
+    itemsEl.appendChild(span);
+  }
+
+  // Log lista
+  var logEl = document.getElementById('perselyLog');
+  logEl.innerHTML = '';
+  if (!log.length) { logEl.innerHTML = '<div class="empty" style="padding:1.5rem 0"><i class="ti ti-history"></i>Nincs tranzakció</div>'; return; }
+  var sorted = log.slice().reverse();
+  for (var k = 0; k < sorted.length; k++) {
+    var e = sorted[k];
+    var row = document.createElement('div');
+    row.style.cssText = 'display:flex;justify-content:space-between;align-items:center;padding:.75rem 0;border-bottom:.5px solid var(--bd);font-size:13px';
+    var plus = e.amount > 0;
+    row.innerHTML = '<div><div style="font-weight:500">' + (plus ? '&#x2B; Berakás' : '&#x2212; Kivétel') + '</div><div style="font-size:11px;color:var(--tx3);margin-top:2px">' + fmtDate(e.date) + '</div></div>' +
+      '<div style="font-weight:600;font-family:DM Mono,monospace;color:' + (plus ? 'var(--green)' : 'var(--red)') + '">' + (plus ? '+' : '') + fmtHUF(e.amount) + '</div>';
+    logEl.appendChild(row);
+  }
+}
+
+document.getElementById('perselyAdd').addEventListener('click', function() {
+  var v = parseFloat(document.getElementById('perselyInput').value);
+  if (!v || v <= 0) { document.getElementById('perselyInput').focus(); return; }
+  if (!state.persely) state.persely = {total:0, log:[]};
+  state.persely.total = (state.persely.total || 0) + v;
+  state.persely.log.push({amount: v, date: new Date().toISOString().split('T')[0]});
+  document.getElementById('perselyInput').value = '';
+  save(); renderPersely(); showToast('&#x1F437; ' + fmtHUF(v) + ' berakva a perselybe!');
+});
+
+document.getElementById('perselyRemove').addEventListener('click', function() {
+  var v = parseFloat(document.getElementById('perselyWithdraw').value);
+  if (!v || v <= 0) { document.getElementById('perselyWithdraw').focus(); return; }
+  if (v > (state.persely.total || 0)) { showToast('Nincs elég összeg a perselyben!'); return; }
+  state.persely.total -= v;
+  state.persely.log.push({amount: -v, date: new Date().toISOString().split('T')[0]});
+  document.getElementById('perselyWithdraw').value = '';
+  save(); renderPersely(); showToast('Kivéve: ' + fmtHUF(v));
+});
+
+// --- BEFEKTETÉSI JAVASLATOK ---
+function renderInvest() {
+  var el = document.getElementById('investContent');
+  var savings = (state.persely && state.persely.total) ? state.persely.total : 0;
+  var rem = curRem();
+  var total = savings + (rem > 0 ? rem : 0);
+
+  var tier = INVEST_TIERS[0];
+  for (var i = 0; i < INVEST_TIERS.length; i++) {
+    if (total >= INVEST_TIERS[i].min) tier = INVEST_TIERS[i];
+  }
+
+  var html = '<div class="inv-card">' +
+    '<div class="inv-header">' +
+      '<span style="font-size:28px">' + tier.icon + '</span>' +
+      '<div><div class="inv-title">Befektetési javaslatok</div>' +
+      '<div class="inv-subtitle">' + tier.label + ' | Rendelkezésre álló összeg: <strong>' + fmtHUF(total) + '</strong></div></div>' +
+    '</div>' +
+    '<div style="font-size:12px;color:var(--tx3);margin-bottom:12px;line-height:1.6;padding:.7rem;background:var(--surf2);border-radius:var(--rs)">&#x26A0;&#xFE0F; Ezek általános tájékoztató jellegű javaslatok, nem minősülnek pénzügyi tanácsadásnak. Befektetés előtt kérj szakértői véleményt!</div>' +
+    '<div class="inv-list">';
+
+  var items = tier.items;
+  for (var j = 0; j < items.length; j++) {
+    var it = items[j];
+    html += '<div class="inv-item">' +
+      '<div class="inv-icon">' + it.icon + '</div>' +
+      '<div style="flex:1;min-width:0">' +
+        '<div style="display:flex;align-items:flex-start">' +
+          '<div><div class="inv-name">' + it.name + '</div>' +
+          '<div class="inv-desc">' + it.desc + '</div>' +
+          '<span class="inv-badge ' + it.risk + '">' + (it.risk === 'low' ? '&#x1F7E2; Alacsony kockázat' : it.risk === 'med' ? '&#x1F7E1; Közepes kockázat' : '&#x1F534; Magas kockázat') + '</span></div>' +
+          '<div class="inv-pct">' + it.ret + '</div>' +
+        '</div>' +
+      '</div></div>';
+  }
+  html += '</div></div>';
+
+  // Befektetési kalkulátor
+  html += '<div class="inv-card">' +
+    '<div style="font-size:14px;font-weight:600;margin-bottom:12px">&#x1F9EE; Egyszerű hozamkalkulátor</div>' +
+    '<div class="form-grid" style="gap:10px;margin-bottom:10px">' +
+      '<div class="ff"><label for="calcAmt">Befektetett összeg (Ft)</label><input type="number" id="calcAmt" placeholder="100000" value="' + Math.round(total) + '" /></div>' +
+      '<div class="ff"><label for="calcRate">Éves hozam (%)</label><input type="number" id="calcRate" placeholder="7" value="7" /></div>' +
+      '<div class="ff"><label for="calcYears">Évek száma</label><input type="number" id="calcYears" placeholder="5" value="5" /></div>' +
+      '<div class="ff" style="justify-content:flex-end;padding-top:20px"><button class="btn primary" id="calcBtn">Számítás</button></div>' +
+    '</div>' +
+    '<div id="calcResult" style="display:none;padding:.9rem;background:var(--green-bg);border-radius:var(--rs);font-size:13px;color:var(--tx)"></div>' +
+    '</div>';
+
+  el.innerHTML = html;
+
+  document.getElementById('calcBtn').addEventListener('click', function() {
+    var amt = parseFloat(document.getElementById('calcAmt').value) || 0;
+    var rate = parseFloat(document.getElementById('calcRate').value) || 0;
+    var years = parseFloat(document.getElementById('calcYears').value) || 0;
+    var result = amt * Math.pow(1 + rate/100, years);
+    var profit = result - amt;
+    var resEl = document.getElementById('calcResult');
+    resEl.style.display = 'block';
+    resEl.innerHTML = '<strong>Végső összeg: ' + fmtHUF(result) + '</strong><br>' +
+      'Hozam: <span style="color:var(--green);font-weight:600">+' + fmtHUF(profit) + '</span> ' + years + ' év alatt ' + rate + '% éves kamattal';
+  });
+}
+
+// --- E-MAIL ÖSSZESÍTŐ ---
+function sendDailySummaryEmail() {
+  var now = new Date();
+  var dateStr = now.toLocaleDateString('hu-HU', {year:'numeric',month:'long',day:'numeric'});
+  var budget = curBudget(), spent = curSpent(), rem = budget - spent;
+  var persely = (state.persely && state.persely.total) ? state.persely.total : 0;
+
+  var catLines = '';
+  var exps = curExpenses();
+  for (var i = 0; i < CATS.length; i++) {
+    var total = 0;
+    for (var j = 0; j < exps.length; j++) { if (exps[j].category === CATS[i].id) total += exps[j].amount; }
+    if (total > 0) catLines += CATS[i].label + ': ' + fmtHUF(total) + '\n';
+  }
+
+  var subject = encodeURIComponent('Pénztárca napi összesítő – ' + dateStr);
+  var body = encodeURIComponent(
+    'PÉNZTÁRCA – NAPI ÖSSZESÍTŐ\n' +
+    dateStr + '\n' +
+    '================================\n\n' +
+    'HAVI KERET: ' + fmtHUF(budget) + '\n' +
+    'ELKÖLTVE:   ' + fmtHUF(spent) + '\n' +
+    'MARADÉK:    ' + fmtHUF(rem) + '\n' +
+    'PERSELY:    ' + fmtHUF(persely) + '\n\n' +
+    'KATEGÓRIÁNKÉNTI BONTÁS:\n' +
+    (catLines || 'Nincs kiadás ma\n') +
+    '\n================================\n' +
+    'Automatikusan generálva – Pénztárca alkalmazás'
+  );
+
+  window.location.href = 'mailto:halasznorbertk@gmail.com?subject=' + subject + '&body=' + body;
+  showToast('&#x2709;&#xFE0F; E-mail kliens megnyitva...');
+}
+
+// Charts
 function getLastNMonths(n) {
   var result = [];
   for (var i = 0; i < n; i++) {
-    var d = new Date();
-    d.setMonth(d.getMonth() - (n-1-i));
+    var d = new Date(); d.setDate(1); d.setMonth(d.getMonth()-(n-1-i));
     result.push(d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0'));
   }
   return result;
 }
-
 function sumExpenses(m) {
   var total = 0;
   for (var i = 0; i < state.expenses.length; i++) {
@@ -429,59 +698,38 @@ function sumExpenses(m) {
   }
   return total;
 }
-
 function renderCharts() {
   var isDark = state.dark;
-  var months = getLastNMonths(6);
-  var labels = [];
-  var spentData = [];
-  var budgetData = [];
+  var months = getLastNMonths(6), labels = [], spentData = [], budgetData = [];
   for (var i = 0; i < months.length; i++) {
     labels.push(fmtShortMonth(months[i]));
     spentData.push(sumExpenses(months[i]));
     budgetData.push(state.budgets[months[i]] || 0);
   }
-  var exps = curExpenses();
-  var pieDat = [];
+  var exps = curExpenses(), pieDat = [];
   for (var j = 0; j < CATS.length; j++) {
     var val = 0;
     for (var k = 0; k < exps.length; k++) { if (exps[k].category === CATS[j].id) val += exps[k].amount; }
-    if (val > 0) pieDat.push({label: CATS[j].label, val: val, color: CATS[j].color});
+    if (val > 0) pieDat.push({label:CATS[j].label, val:val, color:CATS[j].color});
   }
-
   var gridC = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
   var labelC = isDark ? '#7a90b0' : '#6b7280';
-  var tf = {size:11, family:"'DM Sans',sans-serif"};
-  function fmtK(v) {
-    if (v >= 1000000) return (v/1000000).toFixed(1)+'M Ft';
-    if (v >= 1000) return (v/1000).toFixed(0)+'e Ft';
-    return v+' Ft';
-  }
+  var tf = {size:11,family:"'DM Sans',sans-serif"};
+  function fmtK(v) { if(v>=1000000) return (v/1000000).toFixed(1)+'M'; if(v>=1000) return (v/1000).toFixed(0)+'e'; return v; }
 
   if (pieInst) { pieInst.destroy(); pieInst = null; }
-  var legend = document.getElementById('pieLegend');
-  legend.innerHTML = '';
+  var legend = document.getElementById('pieLegend'); legend.innerHTML = '';
   if (pieDat.length) {
-    var tot = 0;
-    for (var p = 0; p < pieDat.length; p++) tot += pieDat[p].val;
+    var tot = 0; for (var p = 0; p < pieDat.length; p++) tot += pieDat[p].val;
     for (var q = 0; q < pieDat.length; q++) {
-      var s = document.createElement('span');
-      s.className = 'leg-item';
+      var s = document.createElement('span'); s.className = 'leg-item';
       s.innerHTML = '<span class="leg-dot" style="background:' + pieDat[q].color + '"></span>' + pieDat[q].label + ' – ' + Math.round(pieDat[q].val/tot*100) + '%';
       legend.appendChild(s);
     }
-    var pieColors = [];
-    var pieVals = [];
-    var pieLabels = [];
-    for (var r = 0; r < pieDat.length; r++) {
-      pieColors.push(pieDat[r].color);
-      pieVals.push(pieDat[r].val);
-      pieLabels.push(pieDat[r].label);
-    }
     pieInst = new Chart(document.getElementById('pieC'), {
-      type: 'doughnut',
-      data: {labels: pieLabels, datasets: [{data: pieVals, backgroundColor: pieColors, borderWidth: 3, borderColor: isDark ? '#131929' : '#fff'}]},
-      options: {responsive:true, maintainAspectRatio:false, cutout:'60%', plugins:{legend:{display:false}, tooltip:{callbacks:{label:function(ctx){return ' '+fmtHUF(ctx.parsed);}}}}}
+      type:'doughnut',
+      data:{labels:pieDat.map(function(d){return d.label;}), datasets:[{data:pieDat.map(function(d){return d.val;}), backgroundColor:pieDat.map(function(d){return d.color;}), borderWidth:3, borderColor:isDark?'#131929':'#fff'}]},
+      options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{display:false},tooltip:{callbacks:{label:function(ctx){return ' '+fmtHUF(ctx.parsed);}}}}}
     });
   } else {
     legend.innerHTML = '<span style="font-size:12px;color:var(--tx3)">Nincs adat ebben a hónapban</span>';
@@ -489,32 +737,27 @@ function renderCharts() {
 
   if (lineInst) { lineInst.destroy(); lineInst = null; }
   lineInst = new Chart(document.getElementById('lineC'), {
-    type: 'line',
-    data: {labels: labels, datasets: [
-      {label:'Kiadás', data:spentData, borderColor:'#2563eb', backgroundColor:'rgba(37,99,235,0.07)', tension:.35, fill:true, borderWidth:2, pointRadius:4, pointBackgroundColor:'#2563eb'},
-      {label:'Keret', data:budgetData, borderColor:'#d97706', borderDash:[5,4], backgroundColor:'transparent', tension:.35, fill:false, borderWidth:1.5, pointRadius:3, pointBackgroundColor:'#d97706'}
+    type:'line',
+    data:{labels:labels,datasets:[
+      {label:'Kiadás',data:spentData,borderColor:'#2563eb',backgroundColor:'rgba(37,99,235,0.07)',tension:.35,fill:true,borderWidth:2,pointRadius:4,pointBackgroundColor:'#2563eb'},
+      {label:'Keret',data:budgetData,borderColor:'#d97706',borderDash:[5,4],backgroundColor:'transparent',tension:.35,fill:false,borderWidth:1.5,pointRadius:3,pointBackgroundColor:'#d97706'}
     ]},
-    options: {responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}, tooltip:{callbacks:{label:function(ctx){return ' '+fmtHUF(ctx.parsed.y);}}}},
-      scales:{x:{grid:{color:gridC},ticks:{color:labelC,font:tf}}, y:{grid:{color:gridC},ticks:{color:labelC,font:tf,callback:fmtK}}}}
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(ctx){return ' '+fmtHUF(ctx.parsed.y);}}}},scales:{x:{grid:{color:gridC},ticks:{color:labelC,font:tf}},y:{grid:{color:gridC},ticks:{color:labelC,font:tf,callback:fmtK}}}}
   });
 
   if (barInst) { barInst.destroy(); barInst = null; }
   barInst = new Chart(document.getElementById('barC'), {
-    type: 'bar',
-    data: {labels: labels, datasets: [
-      {label:'Tervezett', data:budgetData, backgroundColor:'rgba(124,58,237,0.65)', borderRadius:5, borderWidth:0},
-      {label:'Tényleges', data:spentData, backgroundColor:'rgba(5,150,105,0.7)', borderRadius:5, borderWidth:0}
+    type:'bar',
+    data:{labels:labels,datasets:[
+      {label:'Tervezett',data:budgetData,backgroundColor:'rgba(124,58,237,0.65)',borderRadius:5,borderWidth:0},
+      {label:'Tényleges',data:spentData,backgroundColor:'rgba(5,150,105,0.7)',borderRadius:5,borderWidth:0}
     ]},
-    options: {responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}, tooltip:{callbacks:{label:function(ctx){return ' '+fmtHUF(ctx.parsed.y);}}}},
-      scales:{x:{grid:{color:gridC},ticks:{color:labelC,font:tf}}, y:{grid:{color:gridC},ticks:{color:labelC,font:tf,callback:fmtK}}}}
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(ctx){return ' '+fmtHUF(ctx.parsed.y);}}}},scales:{x:{grid:{color:gridC},ticks:{color:labelC,font:tf}},y:{grid:{color:gridC},ticks:{color:labelC,font:tf,callback:fmtK}}}}
   });
 }
 
 function renderAll() {
-  updateBudgetCard();
-  renderCatGrid();
-  renderRecentList();
-  renderExpList();
+  updateBudgetCard(); renderCatGrid(); renderRecentList(); renderExpList(); renderPersely();
   var statsTab = document.getElementById('tc-stats');
   if (statsTab && statsTab.classList.contains('on')) renderCharts();
 }
@@ -524,18 +767,19 @@ var tabs = document.querySelectorAll('.tb');
 for (var ti = 0; ti < tabs.length; ti++) {
   (function(btn) {
     btn.addEventListener('click', function() {
-      var allTbs = document.querySelectorAll('.tb');
-      var allTcs = document.querySelectorAll('.tc');
+      var allTbs = document.querySelectorAll('.tb'), allTcs = document.querySelectorAll('.tc');
       for (var x = 0; x < allTbs.length; x++) allTbs[x].classList.remove('on');
       for (var y = 0; y < allTcs.length; y++) allTcs[y].classList.remove('on');
       btn.classList.add('on');
       var tc = document.getElementById('tc-' + btn.getAttribute('data-tab'));
       if (tc) tc.classList.add('on');
-      if (btn.getAttribute('data-tab') === 'stats') setTimeout(renderCharts, 30);
+      var tab = btn.getAttribute('data-tab');
+      if (tab === 'stats') setTimeout(renderCharts, 30);
+      if (tab === 'persely') renderPersely();
+      if (tab === 'invest') renderInvest();
     });
   })(tabs[ti]);
 }
-
 var gotoTabs = document.querySelectorAll('[data-gototab]');
 for (var gi = 0; gi < gotoTabs.length; gi++) {
   (function(btn) {
@@ -562,7 +806,7 @@ function cancelBudget() {
 document.getElementById('cancelBudget').addEventListener('click', cancelBudget);
 document.getElementById('saveBudget').addEventListener('click', function() {
   var v = parseFloat(document.getElementById('budgetInput').value);
-  if (v > 0) { state.budgets[state.currentMonth] = v; save(); showToast('✓ Keret elmentve'); }
+  if (v > 0) { state.budgets[state.currentMonth] = v; save(); showToast('&#x2713; Keret elmentve'); }
   cancelBudget(); renderAll();
 });
 document.getElementById('budgetInput').addEventListener('keydown', function(e) {
@@ -591,7 +835,6 @@ function openForm(exp) {
   document.getElementById('fAmt').focus();
 }
 function closeForm() { document.getElementById('expForm').style.display = 'none'; state.editId = null; }
-
 document.getElementById('addExpBtn').addEventListener('click', function() { openForm(null); });
 document.getElementById('cancelExp').addEventListener('click', closeForm);
 document.getElementById('saveExp').addEventListener('click', function() {
@@ -608,27 +851,21 @@ document.getElementById('saveExp').addEventListener('click', function() {
     for (var i = 0; i < state.expenses.length; i++) {
       if (state.expenses[i].id === state.editId) { state.expenses[i] = exp; break; }
     }
-    showToast('✓ Kiadás módosítva');
+    showToast('&#x2713; Kiadás módosítva');
   } else {
     state.expenses.push(exp);
-    showToast('✓ Kiadás hozzáadva');
+    playCoinSound();
+    showToast('&#x1F4B8; Kiadás rögzítve!');
   }
   save(); closeForm(); renderAll();
 });
-
-function startEdit(exp) {
-  openForm(exp);
-  var expTab = document.querySelector('[data-tab="expenses"]');
-  if (expTab) expTab.click();
-}
+function startEdit(exp) { openForm(exp); document.querySelector('[data-tab="expenses"]').click(); }
 function deleteExp(id) {
   if (!confirm('Biztosan törlöd ezt a kiadást?')) return;
   var newExps = [];
-  for (var i = 0; i < state.expenses.length; i++) {
-    if (state.expenses[i].id !== id) newExps.push(state.expenses[i]);
-  }
+  for (var i = 0; i < state.expenses.length; i++) { if (state.expenses[i].id !== id) newExps.push(state.expenses[i]); }
   state.expenses = newExps;
-  save(); showToast('✓ Kiadás törölve'); renderAll();
+  save(); showToast('&#x2713; Kiadás törölve'); renderAll();
 }
 
 // Dark mode
@@ -642,52 +879,58 @@ document.getElementById('darkBtn').addEventListener('click', function() {
   state.dark = !state.dark; applyDark(); renderCharts();
 });
 
+// Sound toggle
+function updateSoundUI() {
+  document.getElementById('soundIco').className = state.sound ? 'ti ti-volume' : 'ti ti-volume-off';
+  document.getElementById('soundLabel').textContent = state.sound ? 'Bekapcsolva' : 'Kikapcsolva';
+  localStorage.setItem('pfin_sound', JSON.stringify(state.sound));
+}
+document.getElementById('soundToggle').addEventListener('click', function() {
+  state.sound = !state.sound; updateSoundUI();
+  showToast(state.sound ? '&#x1F50A; Hang bekapcsolva' : '&#x1F507; Hang kikapcsolva');
+});
+
+// E-mail gombok
+document.getElementById('emailDayBtn').addEventListener('click', sendDailySummaryEmail);
+document.getElementById('emailDayBtn2').addEventListener('click', sendDailySummaryEmail);
+
 // Export
 document.getElementById('exportBtn').addEventListener('click', function() {
-  var data = JSON.stringify({budgets: state.budgets, expenses: state.expenses}, null, 2);
-  var blob = new Blob([data], {type: 'application/json'});
+  var data = JSON.stringify({budgets:state.budgets, expenses:state.expenses, persely:state.persely}, null, 2);
   var a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'penztarca_' + state.currentMonth + '.json';
-  a.click();
-  showToast('✓ Fájl letöltve');
+  a.href = URL.createObjectURL(new Blob([data],{type:'application/json'}));
+  a.download = 'penztarca_' + state.currentMonth + '.json'; a.click();
+  showToast('&#x2713; Fájl letöltve');
 });
 
 // Import
 document.getElementById('importInput').addEventListener('change', function(e) {
-  var file = e.target.files && e.target.files[0];
-  if (!file) return;
+  var file = e.target.files && e.target.files[0]; if (!file) return;
   var reader = new FileReader();
   reader.onload = function(ev) {
     try {
       var d = JSON.parse(ev.target.result);
-      if (d.budgets && typeof d.budgets === 'object') {
-        for (var k in d.budgets) state.budgets[k] = d.budgets[k];
-      }
+      if (d.budgets) for (var k in d.budgets) state.budgets[k] = d.budgets[k];
       if (Array.isArray(d.expenses)) {
-        var ids = {};
-        for (var i = 0; i < state.expenses.length; i++) ids[state.expenses[i].id] = true;
-        for (var j = 0; j < d.expenses.length; j++) {
-          if (!ids[d.expenses[j].id]) state.expenses.push(d.expenses[j]);
-        }
+        var ids = {}; for (var i = 0; i < state.expenses.length; i++) ids[state.expenses[i].id] = true;
+        for (var j = 0; j < d.expenses.length; j++) { if (!ids[d.expenses[j].id]) state.expenses.push(d.expenses[j]); }
       }
-      save(); renderAll(); showToast('✓ Adatok importálva');
+      if (d.persely) state.persely = d.persely;
+      save(); renderAll(); showToast('&#x2713; Adatok importálva');
     } catch(err) { alert('Érvénytelen fájl!'); }
   };
-  reader.readAsText(file);
-  e.target.value = '';
+  reader.readAsText(file); e.target.value = '';
 });
 
 // Clear
 document.getElementById('clearBtn').addEventListener('click', function() {
   if (!confirm('Biztosan törlöd az összes adatot? Ez a művelet nem visszavonható!')) return;
-  state.budgets = {}; state.expenses = [];
-  save(); renderAll(); showToast('✓ Adatok törölve');
+  state.budgets = {}; state.expenses = []; state.persely = {total:0,log:[]};
+  save(); renderAll(); showToast('&#x2713; Adatok törölve');
 });
 
 // Init
-applyDark();
-renderAll();
+applyDark(); updateSoundUI(); renderAll();
 </script>
 </body>
 </html>
