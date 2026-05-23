@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pénztárca – Személyes pénzügyi nyilvántartó</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f0f2f7;
+    --surf: #ffffff;
+    --surf2: #f5f6fa;
+    --surf3: #e8eaf0;
+    --bd: rgba(0,0,0,0.08);
+    --bd2: rgba(0,0,0,0.14);
+    --tx: #111827;
+    --tx2: #4b5563;
+    --tx3: #9ca3af;
+    --green: #059669;
+    --red: #dc2626;
+    --amber: #d97706;
+    --blue: #2563eb;
+    --green-bg: #ecfdf5;
+    --red-bg: #fef2f2;
+    --amber-bg: #fffbeb;
+    --radius: 14px;
+    --radius-sm: 9px;
+    --shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+
+  body.dark {
+    --bg: #0b0f1a;
+    --surf: #131929;
+    --surf2: #1a2235;
+    --surf3: #1f2a3d;
+    --bd: rgba(255,255,255,0.06);
+    --bd2: rgba(255,255,255,0.12);
+    --tx: #e8edf8;
+    --tx2: #7a90b0;
+    --tx3: #3d5270;
+    --green: #34d399;
+    --red: #f87171;
+    --amber: #fbbf24;
+    --blue: #60a5fa;
+    --green-bg: rgba(52,211,153,0.1);
+    --red-bg: rgba(248,113,113,0.1);
+    --amber-bg: rgba(251,191,36,0.1);
+    --shadow: 0 2px 16px rgba(0,0,0,0.35);
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--tx);
+    min-height: 100vh;
+    transition: background .25s, color .25s;
+  }
+
+  /* Layout */
+  .wrapper { max-width: 780px; margin: 0 auto; padding: 0 1rem 4rem; }
+
+  /* Header */
+  .hdr {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 0 1rem; border-bottom: 0.5px solid var(--bd);
+    margin-bottom: 1.25rem;
+  }
+  .hdr-brand { display: flex; align-items: center; gap: 9px; }
+  .hdr-brand .logo { font-size: 22px; }
+  .hdr-brand .name { font-size: 18px; font-weight: 600; letter-spacing: -.3px; }
+  .hdr-brand .tag {
+    font-size: 10px; font-weight: 500; background: var(--surf3);
+    color: var(--tx3); padding: 2px 8px; border-radius: 20px;
+    letter-spacing: .03em; margin-top: 1px;
+  }
+  .hdr-right { display: flex; gap: 6px; }
+  .icon-btn {
+    background: var(--surf); border: 0.5px solid var(--bd2);
+    border-radius: var(--radius-sm); cursor: pointer;
+    padding: 7px 9px; color: var(--tx2); font-size: 16px;
+    line-height: 1; display: flex; align-items: center; transition: background .12s, color .12s;
+  }
+  .icon-btn:hover { background: var(--surf2); color: var(--tx); }
+
+  /* Month nav */
+  .month-nav {
+    display: flex; align-items: center; justify-content: center;
+    gap: 10px; margin-bottom: 1.1rem;
+  }
+  .m-label { font-size: 15px; font-weight: 500; min-width: 200px; text-align: center; }
+
+  /* Budget card */
+  .budget-card {
+    background: var(--surf); border: 0.5px solid var(--bd);
+    border-radius: var(--radius); padding: 1.4rem 1.5rem;
+    margin-bottom: 1rem; box-shadow: var(--shadow);
+  }
+  .bc-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: .4rem; }
+  .bc-label { font-size: 11px; color: var(--tx3); text-transform: uppercase; letter-spacing: .07em; font-weight: 500; }
+  .bc-amount { font-size: 32px; font-weight: 600; letter-spacing: -.5px; line-height: 1.1; margin-bottom: 1.1rem; }
+  .stat-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 1rem; }
+  .stat-c { background: var(--surf2); border-radius: var(--radius-sm); padding: .7rem 1rem; }
+  .stat-c .sl { font-size: 11px; color: var(--tx3); margin-bottom: 3px; font-weight: 500; }
+  .stat-c .sv { font-size: 15px; font-weight: 600; font-family: 'DM Mono', monospace; }
+  .prog-track { height: 8px; background: var(--surf3); border-radius: 4px; overflow: hidden; }
+  .prog-fill { height: 100%; border-radius: 4px; transition: width .5s cubic-bezier(.4,0,.2,1), background .3s; }
+  .be-form { display: flex; gap: 8px; align-items: center; margin-top: 10px; flex-wrap: wrap; }
+  .be-form input { max-width: 200px; }
+
+  /* Tabs */
+  .tabs {
+    display: flex; border-bottom: 0.5px solid var(--bd);
+    margin-bottom: 1.1rem; overflow-x: auto; scrollbar-width: none; gap: 0;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tb {
+    background: none; border: none; border-bottom: 2px solid transparent;
+    padding: .65rem 1.1rem; font-size: 13px; color: var(--tx2);
+    cursor: pointer; white-space: nowrap; display: flex; align-items: center;
+    gap: 6px; margin-bottom: -0.5px; font-family: 'DM Sans', sans-serif;
+    transition: color .15s; font-weight: 400;
+  }
+  .tb.on { color: var(--tx); border-bottom-color: var(--tx); font-weight: 500; }
+  .tb:hover:not(.on) { color: var(--tx); }
+  .tc { display: none; } .tc.on { display: block; }
+
+  /* Section header */
+  .sec-hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: .8rem; }
+  .sec-title { font-size: 13px; font-weight: 500; color: var(--tx2); }
+
+  /* Card */
+  .card {
+    background: var(--surf); border: 0.5px solid var(--bd);
+    border-radius: var(--radius); padding: 1.2rem 1.4rem;
+    margin-bottom: .9rem; box-shadow: var(--shadow);
+  }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .ff { display: flex; flex-direction: column; gap: 5px; }
+  .ff label { font-size: 12px; color: var(--tx2); font-weight: 500; }
+  .ff.fw { grid-column: 1 / -1; }
+  .form-footer { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }
+
+  input, select, textarea {
+    width: 100%; padding: 9px 12px;
+    border: 0.5px solid var(--bd2); border-radius: var(--radius-sm);
+    font-size: 14px; background: var(--surf2); color: var(--tx);
+    font-family: 'DM Sans', sans-serif; outline: none;
+    transition: border-color .15s, box-shadow .15s;
+    -webkit-appearance: none;
+  }
+  input:focus, select:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(37,99,235,.12); }
+  select { cursor: pointer; }
+
+  .btn {
+    padding: 8px 16px; border: 0.5px solid var(--bd2);
+    border-radius: var(--radius-sm); background: none; color: var(--tx);
+    font-size: 13px; cursor: pointer; font-family: 'DM Sans', sans-serif;
+    display: inline-flex; align-items: center; gap: 6px;
+    transition: background .12s, transform .08s; font-weight: 500;
+  }
+  .btn:hover { background: var(--surf2); }
+  .btn:active { transform: scale(0.98); }
+  .btn.primary { background: var(--tx); color: var(--bg); border-color: var(--tx); }
+  .btn.primary:hover { opacity: .87; }
+  .btn.danger { color: var(--red); border-color: rgba(220,38,38,.3); }
+  .btn.danger:hover { background: var(--red-bg); }
+
+  /* Expense list */
+  .elist { display: flex; flex-direction: column; gap: 5px; }
+  .ei {
+    background: var(--surf); border: 0.5px solid var(--bd);
+    border-radius: var(--radius-sm); padding: .8rem 1rem;
+    display: flex; align-items: center; gap: 10px;
+    transition: background .1s, box-shadow .1s;
+  }
+  .ei:hover { background: var(--surf2); box-shadow: var(--shadow); }
+  .ei-badge {
+    width: 38px; height: 38px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .ei-info { flex: 1; min-width: 0; }
+  .ei-desc { font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ei-meta { font-size: 11px; color: var(--tx3); margin-top: 2px; }
+  .ei-amount { font-size: 14px; font-weight: 600; font-family: 'DM Mono', monospace; white-space: nowrap; margin-right: 4px; }
+  .ei-actions { display: flex; gap: 3px; flex-shrink: 0; }
+  .act-btn {
+    background: none; border: none; cursor: pointer;
+    color: var(--tx3); padding: 5px; border-radius: 7px;
+    font-size: 15px; display: flex; align-items: center;
+    transition: color .12s, background .12s;
+  }
+  .act-btn.edit:hover { color: var(--amber); background: var(--amber-bg); }
+  .act-btn.del:hover { color: var(--red); background: var(--red-bg); }
+  .empty { text-align: center; padding: 3rem 1rem; color: var(--tx3); font-size: 14px; line-height: 1.7; }
+  .empty i { font-size: 36px; display: block; margin-bottom: .7rem; opacity: .35; }
+
+  /* Category grid */
+  .cat-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; margin-bottom: 1.25rem; }
+  .cat-c {
+    background: var(--surf); border: 0.5px solid var(--bd);
+    border-radius: var(--radius-sm); padding: .85rem 1rem;
+    display: flex; align-items: center; gap: 9px; box-shadow: var(--shadow);
+  }
+  .cat-ico { font-size: 22px; line-height: 1; }
+  .cat-label { font-size: 12px; color: var(--tx2); }
+  .cat-amount { font-size: 14px; font-weight: 600; font-family: 'DM Mono', monospace; }
+
+  /* Charts */
+  .chart-sec { margin-bottom: 2rem; }
+  .chart-title { font-size: 13px; font-weight: 500; color: var(--tx2); margin-bottom: .6rem; }
+  .chart-wrap { position: relative; width: 100%; }
+  .legend { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: .7rem; }
+  .leg-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--tx2); }
+  .leg-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+  /* Settings */
+  .set-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 0; border-bottom: 0.5px solid var(--bd);
+  }
+  .set-row:last-child { border-bottom: none; }
+  .sl-t { font-size: 14px; font-weight: 500; }
+  .sl-d { font-size: 12px; color: var(--tx3); margin-top: 3px; }
+  .info-box {
+    margin-top: 1rem; padding: .8rem 1rem;
+    background: var(--surf2); border-radius: var(--radius-sm);
+    font-size: 12px; color: var(--tx3); line-height: 1.7;
+    display: flex; align-items: flex-start; gap: 7px;
+    border: 0.5px solid var(--bd);
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+    background: var(--tx); color: var(--bg); padding: 10px 20px;
+    border-radius: 30px; font-size: 13px; font-weight: 500;
+    opacity: 0; transition: opacity .2s, transform .25s; z-index: 9999;
+    white-space: nowrap; box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* Responsive */
+  @media (max-width: 480px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .ff.fw { grid-column: 1; }
+    .stat-row { grid-template-columns: repeat(3,1fr); }
+    .stat-c .sv { font-size: 13px; }
+    .bc-amount { font-size: 26px; }
+    .cat-grid { grid-template-columns: 1fr; }
+    .hdr-brand .tag { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+  <header class="hdr">
+    <div class="hdr-brand">
+      <span class="logo">💰</span>
+      <span class="name">Pénztárca</span>
+      <span class="tag">BETA</span>
+    </div>
+    <div class="hdr-right">
+      <button class="icon-btn" id="darkBtn" title="Sötét/Világos mód">
+        <i class="ti ti-moon" id="darkIco"></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="month-nav">
+    <button class="icon-btn" id="prevM" title="Előző hónap"><i class="ti ti-chevron-left"></i></button>
+    <span class="m-label" id="mLabel"></span>
+    <button class="icon-btn" id="nextM" title="Következő hónap"><i class="ti ti-chevron-right"></i></button>
+  </div>
+
+  <div class="budget-card">
+    <div class="bc-top">
+      <span class="bc-label">Havi keret</span>
+      <button class="btn" id="editBudgetBtn" style="padding:5px 11px;font-size:12px;">
+        <i class="ti ti-edit"></i> Szerkesztés
+      </button>
+    </div>
+    <div id="bcAmount" class="bc-amount">— nincs keret beállítva —</div>
+    <div id="bcEditForm" class="be-form" style="display:none;">
+      <input type="number" id="budgetInput" placeholder="Összeg (Ft)" min="0" style="max-width:200px;" />
+      <button class="btn primary" id="saveBudget">Mentés</button>
+      <button class="btn" id="cancelBudget">Mégse</button>
+    </div>
+    <div class="stat-row">
+      <div class="stat-c"><div class="sl">Elköltve</div><div class="sv" id="stSpent" style="color:var(--red)">0 Ft</div></div>
+      <div class="stat-c"><div class="sl">Maradék</div><div class="sv" id="stRem" style="color:var(--green)">0 Ft</div></div>
+      <div class="stat-c"><div class="sl">Felhasználva</div><div class="sv" id="stPct">0%</div></div>
+    </div>
+    <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%;background:var(--green)"></div></div>
+  </div>
+
+  <nav class="tabs">
+    <button class="tb on" data-tab="overview"><i class="ti ti-layout-dashboard"></i> Áttekintés</button>
+    <button class="tb" data-tab="expenses"><i class="ti ti-list"></i> Kiadások</button>
+    <button class="tb" data-tab="stats"><i class="ti ti-chart-pie"></i> Statisztikák</button>
+    <button class="tb" data-tab="settings"><i class="ti ti-settings"></i> Beállítások</button>
+  </nav>
+
+  <!-- OVERVIEW -->
+  <div class="tc on" id="tc-overview">
+    <div class="sec-hdr">
+      <span class="sec-title">Kategóriák szerinti bontás</span>
+    </div>
+    <div class="cat-grid" id="catGrid"></div>
+    <div class="sec-hdr">
+      <span class="sec-title">Legutóbbi kiadások</span>
+      <button class="btn" data-gototab="expenses" style="font-size:12px;padding:5px 11px;">Mind megtekintése</button>
+    </div>
+    <div class="elist" id="recentList"></div>
+  </div>
+
+  <!-- EXPENSES -->
+  <div class="tc" id="tc-expenses">
+    <div style="display:flex;justify-content:flex-end;margin-bottom:.8rem;">
+      <button class="btn primary" id="addExpBtn"><i class="ti ti-plus"></i> Új kiadás</button>
+    </div>
+    <div class="card" id="expForm" style="display:none;">
+      <div style="font-size:14px;font-weight:600;margin-bottom:14px;" id="formTitle">Új kiadás hozzáadása</div>
+      <div class="form-grid">
+        <div class="ff"><label for="fAmt">Összeg (Ft)</label><input type="number" id="fAmt" placeholder="0" min="1" /></div>
+        <div class="ff"><label for="fDt">Dátum</label><input type="date" id="fDt" /></div>
+        <div class="ff"><label for="fCat">Kategória</label>
+          <select id="fCat">
+            <option value="elelmiszer">🛒 Élelmiszer</option>
+            <option value="kozlekedes">🚌 Közlekedés</option>
+            <option value="berleti_dij">🏠 Bérleti díj</option>
+            <option value="szórakozás">🎭 Szórakozás</option>
+            <option value="egyeb">📦 Egyéb</option>
+          </select>
+        </div>
+        <div class="ff"><label for="fDesc">Leírás</label><input type="text" id="fDesc" placeholder="pl. Heti bevásárlás" /></div>
+      </div>
+      <div class="form-footer">
+        <button class="btn" id="cancelExp">Mégse</button>
+        <button class="btn primary" id="saveExp"><i class="ti ti-check"></i> Mentés</button>
+      </div>
+    </div>
+    <div class="elist" id="expList"></div>
+  </div>
+
+  <!-- STATS -->
+  <div class="tc" id="tc-stats">
+    <div class="chart-sec">
+      <div class="chart-title">Kiadások kategóriánként</div>
+      <div id="pieLegend" class="legend"></div>
+      <div class="chart-wrap" style="height:250px;">
+        <canvas id="pieC" role="img" aria-label="Kördiagram a kiadások kategóriánkénti megoszlásáról">Nincs adat.</canvas>
+      </div>
+    </div>
+    <div class="chart-sec">
+      <div class="chart-title">Havi kiadási trend (utolsó 6 hónap)</div>
+      <div class="legend">
+        <span class="leg-item"><span class="leg-dot" style="background:#2563eb"></span>Kiadás</span>
+        <span class="leg-item"><span class="leg-dot" style="background:#d97706;opacity:.7"></span>Keret</span>
+      </div>
+      <div class="chart-wrap" style="height:260px;">
+        <canvas id="lineC" role="img" aria-label="Vonaldiagram a havi kiadási trendről">Nincs adat.</canvas>
+      </div>
+    </div>
+    <div class="chart-sec">
+      <div class="chart-title">Tervezett vs tényleges (utolsó 6 hónap)</div>
+      <div class="legend">
+        <span class="leg-item"><span class="leg-dot" style="background:#7c3aed"></span>Tervezett</span>
+        <span class="leg-item"><span class="leg-dot" style="background:#059669"></span>Tényleges</span>
+      </div>
+      <div class="chart-wrap" style="height:260px;">
+        <canvas id="barC" role="img" aria-label="Oszlopdiagram tervezett és tényleges összehasonlításhoz">Nincs adat.</canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="tc" id="tc-settings">
+    <div class="card" style="padding:0 1.4rem;">
+      <div class="set-row">
+        <div><div class="sl-t">Adatok exportálása</div><div class="sl-d">Az összes adat letöltése JSON formátumban</div></div>
+        <button class="btn" id="exportBtn"><i class="ti ti-download"></i> Exportálás</button>
+      </div>
+      <div class="set-row">
+        <div><div class="sl-t">Adatok importálása</div><div class="sl-d">Korábban exportált JSON fájl visszatöltése</div></div>
+        <label style="cursor:pointer;">
+          <input type="file" id="importInput" accept=".json" style="display:none;" />
+          <span class="btn" style="display:inline-flex;align-items:center;gap:6px;"><i class="ti ti-upload"></i> Importálás</span>
+        </label>
+      </div>
+      <div class="set-row">
+        <div><div class="sl-t">Összes adat törlése</div><div class="sl-d">Véglegesen törli az összes kiadást és keretet</div></div>
+        <button class="btn danger" id="clearBtn"><i class="ti ti-trash"></i> Törlés</button>
+      </div>
+    </div>
+    <div class="info-box">
+      <i class="ti ti-info-circle" style="font-size:16px;flex-shrink:0;margin-top:1px;"></i>
+      Az adatok a böngésző LocalStorage-ában tárolódnak — csak ezen az eszközön érhetők el.
+      Exportálással biztonsági másolatot készíthetsz, amelyet bármikor visszatölthetsz.
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const MONTHS = ['Január','Február','Március','Április','Május','Június','Július','Augusztus','Szeptember','Október','November','December'];
+const CATS = [
+  {id:'elelmiszer',  label:'Élelmiszer', icon:'🛒', color:'#EF9F27', bg:'rgba(239,159,39,0.12)'},
+  {id:'kozlekedes',  label:'Közlekedés', icon:'🚌', color:'#2563eb', bg:'rgba(37,99,235,0.10)'},
+  {id:'berleti_dij', label:'Bérleti díj',icon:'🏠', color:'#7c3aed', bg:'rgba(124,58,237,0.10)'},
+  {id:'szórakozás',  label:'Szórakozás', icon:'🎭', color:'#db2777', bg:'rgba(219,39,119,0.10)'},
+  {id:'egyeb',       label:'Egyéb',      icon:'📦', color:'#6b7280', bg:'rgba(107,114,128,0.10)'},
+];
+
+function getCat(id){ return CATS.find(c=>c.id===id)||CATS[4]; }
+function getCurrentMonth(){ const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`; }
+function fmtHUF(n){ return new Intl.NumberFormat('hu-HU').format(Math.round(n))+' Ft'; }
+function fmtDate(s){ if(!s)return''; const[y,m,d]=s.split('-'); return `${y}. ${MONTHS[parseInt(m)-1]} ${d}.`; }
+function fmtShortMonth(ym){ const[,m]=ym.split('-'); return MONTHS[parseInt(m)-1].substring(0,3); }
+function getMonthLabel(ym){ const[y,m]=ym.split('-'); return `${y}. ${MONTHS[parseInt(m)-1]}`; }
+
+const state = {
+  budgets: JSON.parse(localStorage.getItem('pfin_budgets')||'{}'),
+  expenses: JSON.parse(localStorage.getItem('pfin_expenses')||'[]'),
+  currentMonth: getCurrentMonth(),
+  editId: null,
+  dark: localStorage.getItem('pfin_dark')==='1'
+};
+
+let pieInst=null, lineInst=null, barInst=null;
+
+function save(){
+  localStorage.setItem('pfin_budgets', JSON.stringify(state.budgets));
+  localStorage.setItem('pfin_expenses', JSON.stringify(state.expenses));
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2400);
+}
+
+function curExpenses(){ return state.expenses.filter(e=>e.date&&e.date.startsWith(state.currentMonth)); }
+function curBudget(){ return state.budgets[state.currentMonth]||0; }
+function curSpent(){ return curExpenses().reduce((s,e)=>s+e.amount,0); }
+
+function updateBudgetCard(){
+  const budget=curBudget(), spent=curSpent(), rem=budget-spent;
+  const pct=budget>0?Math.min(100,Math.round(spent/budget*100)):0;
+  const amtEl=document.getElementById('bcAmount');
+  if(budget>0){
+    amtEl.textContent=fmtHUF(budget);
+    amtEl.style.fontSize='32px'; amtEl.style.color='var(--tx)';
+  } else {
+    amtEl.textContent='— nincs keret beállítva —';
+    amtEl.style.fontSize='17px'; amtEl.style.color='var(--tx3)';
+  }
+  document.getElementById('stSpent').textContent=fmtHUF(spent);
+  const remEl=document.getElementById('stRem');
+  remEl.textContent=fmtHUF(rem);
+  remEl.style.color=rem<0?'var(--red)':'var(--green)';
+  document.getElementById('stPct').textContent=budget>0?pct+'%':'—';
+  const fill=document.getElementById('progFill');
+  fill.style.width=pct+'%';
+  fill.style.background=pct>90?'var(--red)':pct>70?'var(--amber)':'var(--green)';
+  document.getElementById('mLabel').textContent=getMonthLabel(state.currentMonth);
+}
+
+function renderCatGrid(){
+  const exps=curExpenses();
+  const el=document.getElementById('catGrid'); el.innerHTML='';
+  CATS.forEach(cat=>{
+    const total=exps.filter(e=>e.category===cat.id).reduce((s,e)=>s+e.amount,0);
+    const d=document.createElement('div'); d.className='cat-c';
+    d.innerHTML=`<span class="cat-ico">${cat.icon}</span>
+      <div style="flex:1;min-width:0;">
+        <div class="cat-label">${cat.label}</div>
+        <div class="cat-amount" style="color:${total>0?cat.color:'var(--tx3)'}">${fmtHUF(total)}</div>
+      </div>`;
+    el.appendChild(d);
+  });
+}
+
+function makeEI(exp, actions=true){
+  const cat=getCat(exp.category);
+  const d=document.createElement('div'); d.className='ei';
+  d.innerHTML=`
+    <div class="ei-badge" style="background:${cat.bg}">${cat.icon}</div>
+    <div class="ei-info">
+      <div class="ei-desc">${exp.description||cat.label}</div>
+      <div class="ei-meta">${cat.label} · ${fmtDate(exp.date)}</div>
+    </div>
+    <div class="ei-amount">${fmtHUF(exp.amount)}</div>
+    ${actions?`<div class="ei-actions">
+      <button class="act-btn edit" data-id="${exp.id}" title="Szerkesztés" aria-label="Szerkesztés"><i class="ti ti-edit"></i></button>
+      <button class="act-btn del" data-id="${exp.id}" title="Törlés" aria-label="Törlés"><i class="ti ti-trash"></i></button>
+    </div>`:''}`;
+  return d;
+}
+
+function renderRecentList(){
+  const el=document.getElementById('recentList'); el.innerHTML='';
+  const recent=[...curExpenses()].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5);
+  if(!recent.length){ el.innerHTML='<div class="empty"><i class="ti ti-receipt-off"></i>Nincs kiadás ebben a hónapban</div>'; return; }
+  recent.forEach(e=>el.appendChild(makeEI(e,false)));
+}
+
+function renderExpList(){
+  const el=document.getElementById('expList'); el.innerHTML='';
+  const exps=[...curExpenses()].sort((a,b)=>b.date.localeCompare(a.date));
+  if(!exps.length){
+    el.innerHTML='<div class="empty"><i class="ti ti-receipt-off"></i>Nincs kiadás ebben a hónapban<br><span style="font-size:13px">Adj hozzá egyet a + gombbal!</span></div>';
+    return;
+  }
+  exps.forEach(exp=>{
+    const item=makeEI(exp,true);
+    item.querySelector('.act-btn.edit')?.addEventListener('click',()=>startEdit(exp));
+    item.querySelector('.act-btn.del')?.addEventListener('click',()=>deleteExp(exp.id));
+    el.appendChild(item);
+  });
+}
+
+function getLastNMonths(n){
+  return Array.from({length:n},(_,i)=>{
+    const d=new Date(); d.setMonth(d.getMonth()-(n-1-i));
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+  });
+}
+
+function renderCharts(){
+  const isDark=state.dark;
+  const months=getLastNMonths(6);
+  const labels=months.map(fmtShortMonth);
+  const spentData=months.map(m=>state.expenses.filter(e=>e.date&&e.date.startsWith(m)).reduce((s,e)=>s+e.amount,0));
+  const budgetData=months.map(m=>state.budgets[m]||0);
+  const exps=curExpenses();
+  const pieDat=CATS.map(c=>({label:c.label,val:exps.filter(e=>e.category===c.id).reduce((s,e)=>s+e.amount,0),color:c.color})).filter(d=>d.val>0);
+
+  const gridC=isDark?'rgba(255,255,255,0.05)':'rgba(0,0,0,0.05)';
+  const labelC=isDark?'#7a90b0':'#6b7280';
+  const tf={size:11,family:"'DM Sans',sans-serif"};
+  const fmtK=v=>{if(v>=1000000)return(v/1000000).toFixed(1)+'M Ft';if(v>=1000)return(v/1000).toFixed(0)+'e Ft';return v+' Ft';};
+
+  if(pieInst){pieInst.destroy();pieInst=null;}
+  const legend=document.getElementById('pieLegend'); legend.innerHTML='';
+  if(pieDat.length){
+    const tot=pieDat.reduce((s,d)=>s+d.val,0);
+    pieDat.forEach(d=>{
+      const s=document.createElement('span'); s.className='leg-item';
+      s.innerHTML=`<span class="leg-dot" style="background:${d.color}"></span>${d.label} – ${Math.round(d.val/tot*100)}%`;
+      legend.appendChild(s);
+    });
+    pieInst=new Chart(document.getElementById('pieC'),{
+      type:'doughnut',
+      data:{labels:pieDat.map(d=>d.label),datasets:[{data:pieDat.map(d=>d.val),backgroundColor:pieDat.map(d=>d.color),borderWidth:3,borderColor:isDark?'#131929':'#fff'}]},
+      options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>' '+fmtHUF(ctx.parsed)}}}}
+    });
+  } else {
+    legend.innerHTML='<span style="font-size:12px;color:var(--tx3)">Nincs adat ebben a hónapban</span>';
+  }
+
+  if(lineInst){lineInst.destroy();lineInst=null;}
+  lineInst=new Chart(document.getElementById('lineC'),{
+    type:'line',
+    data:{labels,datasets:[
+      {label:'Kiadás',data:spentData,borderColor:'#2563eb',backgroundColor:'rgba(37,99,235,0.07)',tension:.35,fill:true,borderWidth:2,pointRadius:4,pointBackgroundColor:'#2563eb'},
+      {label:'Keret',data:budgetData,borderColor:'#d97706',borderDash:[5,4],backgroundColor:'transparent',tension:.35,fill:false,borderWidth:1.5,pointRadius:3,pointBackgroundColor:'#d97706'},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>' '+fmtHUF(ctx.parsed.y)}}},scales:{x:{grid:{color:gridC},ticks:{color:labelC,font:tf}},y:{grid:{color:gridC},ticks:{color:labelC,font:tf,callback:fmtK}}}}
+  });
+
+  if(barInst){barInst.destroy();barInst=null;}
+  barInst=new Chart(document.getElementById('barC'),{
+    type:'bar',
+    data:{labels,datasets:[
+      {label:'Tervezett',data:budgetData,backgroundColor:'rgba(124,58,237,0.65)',borderRadius:5,borderWidth:0},
+      {label:'Tényleges',data:spentData,backgroundColor:'rgba(5,150,105,0.7)',borderRadius:5,borderWidth:0},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>' '+fmtHUF(ctx.parsed.y)}}},scales:{x:{grid:{color:gridC},ticks:{color:labelC,font:tf}},y:{grid:{color:gridC},ticks:{color:labelC,font:tf,callback:fmtK}}}}
+  });
+}
+
+function renderAll(){
+  updateBudgetCard(); renderCatGrid(); renderRecentList(); renderExpList();
+  if(document.getElementById('tc-stats').classList.contains('on')) renderCharts();
+}
+
+// Tabs
+document.querySelectorAll('.tb').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('.tc').forEach(c=>c.classList.remove('on'));
+    btn.classList.add('on');
+    document.getElementById('tc-'+btn.dataset.tab).classList.add('on');
+    if(btn.dataset.tab==='stats') setTimeout(renderCharts,30);
+  });
+});
+document.querySelectorAll('[data-gototab]').forEach(btn=>{
+  btn.addEventListener('click',()=>document.querySelector(`[data-tab="${btn.dataset.gototab}"]`).click());
+});
+
+// Budget
+document.getElementById('editBudgetBtn').addEventListener('click',()=>{
+  document.getElementById('bcEditForm').style.display='flex';
+  document.getElementById('bcAmount').style.display='none';
+  document.getElementById('editBudgetBtn').style.display='none';
+  document.getElementById('budgetInput').value=curBudget()||'';
+  document.getElementById('budgetInput').focus();
+});
+function cancelBudget(){
+  document.getElementById('bcEditForm').style.display='none';
+  document.getElementById('bcAmount').style.display='';
+  document.getElementById('editBudgetBtn').style.display='';
+}
+document.getElementById('cancelBudget').addEventListener('click',cancelBudget);
+document.getElementById('saveBudget').addEventListener('click',()=>{
+  const v=parseFloat(document.getElementById('budgetInput').value);
+  if(v>0){ state.budgets[state.currentMonth]=v; save(); showToast('✓ Keret elmentve'); }
+  cancelBudget(); renderAll();
+});
+document.getElementById('budgetInput').addEventListener('keydown',e=>{ if(e.key==='Enter') document.getElementById('saveBudget').click(); });
+
+// Month nav
+function offsetMonth(dir){
+  const[y,m]=state.currentMonth.split('-').map(Number);
+  const d=new Date(y,m-1+dir);
+  state.currentMonth=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+  renderAll();
+}
+document.getElementById('prevM').addEventListener('click',()=>offsetMonth(-1));
+document.getElementById('nextM').addEventListener('click',()=>offsetMonth(1));
+
+// Expense form
+function openForm(exp=null){
+  state.editId=exp?exp.id:null;
+  document.getElementById('expForm').style.display='block';
+  document.getElementById('formTitle').textContent=exp?'Kiadás szerkesztése':'Új kiadás hozzáadása';
+  document.getElementById('fAmt').value=exp?exp.amount:'';
+  document.getElementById('fDt').value=exp?exp.date:new Date().toISOString().split('T')[0];
+  document.getElementById('fCat').value=exp?exp.category:'elelmiszer';
+  document.getElementById('fDesc').value=exp?exp.description:'';
+  document.getElementById('fAmt').focus();
+}
+function closeForm(){ document.getElementById('expForm').style.display='none'; state.editId=null; }
+document.getElementById('addExpBtn').addEventListener('click',()=>openForm());
+document.getElementById('cancelExp').addEventListener('click',closeForm);
+document.getElementById('saveExp').addEventListener('click',()=>{
+  const amt=parseFloat(document.getElementById('fAmt').value);
+  if(!amt||amt<=0){ document.getElementById('fAmt').focus(); return; }
+  const exp={
+    id: state.editId||Date.now().toString()+Math.random().toString(36).slice(2),
+    amount:amt, category:document.getElementById('fCat').value,
+    description:document.getElementById('fDesc').value.trim(),
+    date:document.getElementById('fDt').value
+  };
+  if(state.editId){ state.expenses=state.expenses.map(e=>e.id===state.editId?exp:e); showToast('✓ Kiadás módosítva'); }
+  else { state.expenses.push(exp); showToast('✓ Kiadás hozzáadva'); }
+  save(); closeForm(); renderAll();
+});
+function startEdit(exp){ openForm(exp); document.querySelector('[data-tab="expenses"]').click(); }
+function deleteExp(id){
+  if(!confirm('Biztosan törlöd ezt a kiadást?')) return;
+  state.expenses=state.expenses.filter(e=>e.id!==id);
+  save(); showToast('✓ Kiadás törölve'); renderAll();
+}
+
+// Dark mode
+function applyDark(){
+  document.body.classList.toggle('dark',state.dark);
+  document.getElementById('darkIco').className=state.dark?'ti ti-sun':'ti ti-moon';
+  localStorage.setItem('pfin_dark',state.dark?'1':'0');
+}
+document.getElementById('darkBtn').addEventListener('click',()=>{
+  state.dark=!state.dark; applyDark(); renderCharts();
+});
+
+// Export
+document.getElementById('exportBtn').addEventListener('click',()=>{
+  const data=JSON.stringify({budgets:state.budgets,expenses:state.expenses},null,2);
+  const blob=new Blob([data],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`penztarca_${state.currentMonth}.json`; a.click();
+  showToast('✓ Fájl letöltve');
+});
+
+// Import
+document.getElementById('importInput').addEventListener('change',e=>{
+  const file=e.target.files?.[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    try{
+      const d=JSON.parse(ev.target.result);
+      if(d.budgets&&typeof d.budgets==='object') Object.assign(state.budgets,d.budgets);
+      if(Array.isArray(d.expenses)){
+        const ids=new Set(state.expenses.map(e=>e.id));
+        d.expenses.forEach(ex=>{ if(!ids.has(ex.id)) state.expenses.push(ex); });
+      }
+      save(); renderAll(); showToast('✓ Adatok importálva');
+    }catch(){ alert('Érvénytelen fájl!'); }
+  };
+  reader.readAsText(file); e.target.value='';
+});
+
+// Clear
+document.getElementById('clearBtn').addEventListener('click',()=>{
+  if(!confirm('Biztosan törlöd az összes adatot? Ez a művelet nem visszavonható!')) return;
+  state.budgets={}; state.expenses=[]; save(); renderAll(); showToast('✓ Adatok törölve');
+});
+
+// Init
+applyDark();
+renderAll();
+</script>
+</body>
+</html>
